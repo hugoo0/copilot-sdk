@@ -23,9 +23,7 @@ describe("Streaming Fidelity", async () => {
         const types = events.map((e) => e.type);
 
         // Should have streaming deltas before the final message
-        const deltaEvents = events.filter(
-            (e) => e.type === "assistant.message_delta"
-        );
+        const deltaEvents = events.filter((e) => e.type === "assistant.message_delta");
         expect(deltaEvents.length).toBeGreaterThanOrEqual(1);
 
         // Deltas should have content
@@ -56,17 +54,13 @@ describe("Streaming Fidelity", async () => {
             prompt: "Say 'hello world'.",
         });
 
-        const deltaEvents = events.filter(
-            (e) => e.type === "assistant.message_delta"
-        );
+        const deltaEvents = events.filter((e) => e.type === "assistant.message_delta");
 
         // No deltas when streaming is off
         expect(deltaEvents.length).toBe(0);
 
         // But should still have a final assistant.message
-        const assistantEvents = events.filter(
-            (e) => e.type === "assistant.message"
-        );
+        const assistantEvents = events.filter((e) => e.type === "assistant.message");
         expect(assistantEvents.length).toBeGreaterThanOrEqual(1);
 
         await session.destroy();

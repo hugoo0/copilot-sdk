@@ -4,12 +4,12 @@
 
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { defineTool } from "../../src/index.js";
 import type { ToolResultObject } from "../../src/index.js";
+import { defineTool } from "../../src/index.js";
 import { createSdkTestContext } from "./harness/sdkTestContext";
 
 describe("Tool Results", async () => {
-    const { copilotClient: client, openAiEndpoint } = await createSdkTestContext();
+    const { copilotClient: client } = await createSdkTestContext();
 
     it("should handle structured ToolResultObject from custom tool", async () => {
         const session = await client.createSession({

@@ -4,15 +4,15 @@
 
 import { describe, expect, it } from "vitest";
 import type {
+    ErrorOccurredHookInput,
+    SessionEndHookInput,
     SessionStartHookInput,
     UserPromptSubmittedHookInput,
-    SessionEndHookInput,
-    ErrorOccurredHookInput,
 } from "../../src/types.js";
 import { createSdkTestContext } from "./harness/sdkTestContext.js";
 
 describe("Extended session hooks", async () => {
-    const { copilotClient: client, workDir } = await createSdkTestContext();
+    const { copilotClient: client } = await createSdkTestContext();
 
     it("should invoke onSessionStart hook on new session", async () => {
         const sessionStartInputs: SessionStartHookInput[] = [];

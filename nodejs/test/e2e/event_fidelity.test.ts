@@ -91,12 +91,8 @@ describe("Event Fidelity", async () => {
         });
 
         // Should have tool.execution_start and tool.execution_complete
-        const toolStarts = events.filter(
-            (e) => e.type === "tool.execution_start"
-        );
-        const toolCompletes = events.filter(
-            (e) => e.type === "tool.execution_complete"
-        );
+        const toolStarts = events.filter((e) => e.type === "tool.execution_start");
+        const toolCompletes = events.filter((e) => e.type === "tool.execution_complete");
 
         expect(toolStarts.length).toBeGreaterThanOrEqual(1);
         expect(toolCompletes.length).toBeGreaterThanOrEqual(1);
@@ -124,9 +120,7 @@ describe("Event Fidelity", async () => {
             prompt: "Say 'pong'.",
         });
 
-        const assistantEvents = events.filter(
-            (e) => e.type === "assistant.message"
-        );
+        const assistantEvents = events.filter((e) => e.type === "assistant.message");
         expect(assistantEvents.length).toBeGreaterThanOrEqual(1);
 
         // messageId should be present

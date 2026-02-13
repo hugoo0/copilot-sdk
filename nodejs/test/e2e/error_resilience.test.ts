@@ -12,9 +12,7 @@ describe("Error Resilience", async () => {
         const session = await client.createSession();
         await session.destroy();
 
-        await expect(
-            session.sendAndWait({ prompt: "Hello" })
-        ).rejects.toThrow();
+        await expect(session.sendAndWait({ prompt: "Hello" })).rejects.toThrow();
     });
 
     it("should throw when getting messages from destroyed session", async () => {
@@ -37,8 +35,6 @@ describe("Error Resilience", async () => {
     });
 
     it("should throw when resuming non-existent session", async () => {
-        await expect(
-            client.resumeSession("non-existent-session-id-12345")
-        ).rejects.toThrow();
+        await expect(client.resumeSession("non-existent-session-id-12345")).rejects.toThrow();
     });
 });
