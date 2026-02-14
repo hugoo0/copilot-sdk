@@ -196,14 +196,107 @@ export class WasmTransport implements Transport {
         await this.wasmModule.init(
             httpPost,
             (method: string, paramsJson: string) => {
-                this.wasmConnection!._dispatchEvent(method, paramsJson);
+                this.translateAndDispatchEvent(method, paramsJson);
             },
             async (method: string, paramsJson: string): Promise<string> => {
-                return await this.wasmConnection!._dispatchRequest(method, paramsJson);
+                const translated = this.translateRequest(method, paramsJson);
+                return await this.wasmConnection!._dispatchRequest(translated.method, JSON.stringify(translated.params));
             },
             this.opts.authToken ?? "",
             this.opts.apiUrl,
         );
+    }
+
+    /**
+     * Translates WASM runtime callback names (emit_*, invoke_*) into the
+     * SDK's session.event notification format used by stdio/TCP transports.
+     */
+    private translateAndDispatchEvent(method: string, paramsJson: string): void {
+        const params = JSON.parse(paramsJson);
+        const sessionId = params.sessionId ?? "";
+        const ts = new Date().toISOString();
+        const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
+
+        let eventType: string | undefined;
+        let data: Record<string, unknown> = {};
+        let ephemeral = false;
+
+        switch (method) {
+            case "emit_text_delta":
+                eventType = "assistant.message_delta";
+                data = { messageId: id, deltaContent: params.delta };
+                ephemeral = true;
+                break;
+            case "emit_assistant_message":
+                eventType = "assistant.message";
+                data = { messageId: id, content: params.content };
+                break;
+            case "emit_tool_start":
+                eventType = "tool.execution_start";
+                data = { toolCallId: params.toolCallId, toolName: params.toolName, arguments: params.args };
+                break;
+            case "emit_tool_complete":
+                eventType = "tool.execution_complete";
+                data = { toolCallId: params.toolCallId, success: true, result: { content: params.result } };
+                break;
+            case "emit_idle":
+                eventType = "session.idle";
+                ephemeral = true;
+                break;
+            case "emit_error":
+                eventType = "session.error";
+                data = { message: params.message };
+                break;
+            default:
+                // Unrecognized callbacks (e.g. hook invocations handled via onRequest)
+                return;
+        }
+
+        const notification = {
+            sessionId,
+            event: {
+                type: eventType,
+                id,
+                parentId: null,
+                timestamp: ts,
+                ...(ephemeral && { ephemeral: true }),
+                data: { ...data, sessionId },
+            },
+        };
+
+        this.wasmConnection!._dispatchEvent("session.event", JSON.stringify(notification));
+    }
+
+    /**
+     * Translates WASM runtime request callbacks (invoke_*_hook) into the
+     * SDK's hooks.invoke request format.
+     */
+    private translateRequest(method: string, paramsJson: string): { method: string; params: unknown } {
+        const params = JSON.parse(paramsJson);
+
+        const hookMap: Record<string, string> = {
+            invoke_pre_tool_use_hook: "preToolUse",
+            invoke_post_tool_use_hook: "postToolUse",
+            invoke_user_prompt_submitted_hook: "userPromptSubmitted",
+            invoke_session_start_hook: "sessionStart",
+            invoke_session_end_hook: "sessionEnd",
+            invoke_error_occurred_hook: "errorOccurred",
+        };
+
+        const hookType = hookMap[method];
+        if (hookType) {
+            return {
+                method: "hooks.invoke",
+                params: {
+                    sessionId: params.sessionId,
+                    hookType,
+                    input: params,
+                },
+            };
+        }
+
+        // Pass through unrecognized requests as-is
+        return { method, params };
     }
 
     async stop(): Promise<Error[]> {

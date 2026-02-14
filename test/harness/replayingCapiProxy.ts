@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------------------------------------------*/
 
-import type { retrieveAvailableModels } from "@github/copilot/sdk";
 import { existsSync } from "fs";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import type {
@@ -890,7 +889,14 @@ function convertToStreamingResponseChunks(
 }
 
 function createGetModelsResponse(modelIds: string[]): {
-  data: Awaited<ReturnType<typeof retrieveAvailableModels>>;
+  data: Array<{
+    id: string;
+    name: string;
+    capabilities: {
+      supports: { vision: boolean };
+      limits: { max_context_window_tokens: number };
+    };
+  }>;
 } {
   // Obviously the following might not match any given model. We could track the original responses from /models,
   // but that risks invalidating the caches too frequently and making this unmaintainable. If this approximation

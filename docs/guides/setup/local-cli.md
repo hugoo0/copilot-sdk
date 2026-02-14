@@ -133,7 +133,7 @@ While defaults work great, you can customize the local setup:
 
 ```typescript
 const client = new CopilotClient({
-    // Override CLI location (default: bundled with @github/copilot)
+    // Override CLI location (default: bundled with copilot-core)
     cliPath: "/usr/local/bin/copilot",
 
     // Set log level for debugging

@@ -123,7 +123,7 @@ class CopilotSession:
                 "mode": options.get("mode"),
             },
         )
-        return response["messageId"]
+        return response.get("messageId", "")
 
     async def send_and_wait(
         self, options: MessageOptions, timeout: Optional[float] = None

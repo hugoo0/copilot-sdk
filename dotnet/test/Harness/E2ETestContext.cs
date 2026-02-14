@@ -58,11 +58,20 @@ public class E2ETestContext : IAsyncDisposable
         var envPath = Environment.GetEnvironmentVariable("COPILOT_CLI_PATH");
         if (!string.IsNullOrEmpty(envPath)) return envPath;
 
-        var path = Path.Combine(repoRoot, "nodejs/node_modules/@github/copilot/index.js");
-        if (!File.Exists(path))
-            throw new InvalidOperationException($"CLI not found at {path}. Run 'npm install' in the nodejs directory first.");
+        // Resolve copilot-core from PATH
+        var pathVar = Environment.GetEnvironmentVariable("PATH") ?? "";
+        var separator = OperatingSystem.IsWindows() ? ';' : ':';
+        var binaryName = OperatingSystem.IsWindows() ? "copilot-core.exe" : "copilot-core";
 
-        return path;
+        foreach (var dir in pathVar.Split(separator, StringSplitOptions.RemoveEmptyEntries))
+        {
+            var candidate = Path.Combine(dir, binaryName);
+            if (File.Exists(candidate))
+                return candidate;
+        }
+
+        throw new InvalidOperationException(
+            $"copilot-core not found on PATH. Install it or set COPILOT_CLI_PATH.");
     }
 
     public async Task ConfigureForTestAsync(string testFile, [CallerMemberName] string? testName = null)

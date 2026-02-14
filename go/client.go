@@ -97,12 +97,12 @@ type Client struct {
 //
 //	// Custom options
 //	client := copilot.NewClient(&copilot.ClientOptions{
-//	    CLIPath:  "/usr/local/bin/copilot",
+//	    CLIPath:  "/usr/local/bin/copilot-core",
 //	    LogLevel: "debug",
 //	})
 func NewClient(options *ClientOptions) *Client {
 	opts := ClientOptions{
-		CLIPath:  "copilot",
+		CLIPath:  "copilot-core",
 		Cwd:      "",
 		Port:     0,
 		LogLevel: "info",

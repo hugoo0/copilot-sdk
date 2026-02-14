@@ -26,12 +26,8 @@ func CLIPath() string {
 			return
 		}
 
-		// Look for CLI in sibling nodejs directory's node_modules
-		abs, err := filepath.Abs("../../../nodejs/node_modules/@github/copilot/index.js")
-		if err == nil && fileExists(abs) {
-			cliPath = abs
-			return
-		}
+		// Fall back to copilot-core on PATH
+		cliPath = "copilot-core"
 	})
 	return cliPath
 }
@@ -52,7 +48,7 @@ func NewTestContext(t *testing.T) *TestContext {
 
 	cliPath := CLIPath()
 	if cliPath == "" || !fileExists(cliPath) {
-		t.Fatalf("CLI not found at %s. Run 'npm install' in the nodejs directory first.", cliPath)
+		t.Fatalf("CLI not found at %s. Ensure 'copilot-core' is installed and on PATH, or set COPILOT_CLI_PATH.", cliPath)
 	}
 
 	homeDir, err := os.MkdirTemp("", "copilot-test-config-")

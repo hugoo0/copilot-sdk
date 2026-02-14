@@ -112,7 +112,7 @@ export class CopilotSession {
             mode: options.mode,
         });
 
-        return (response as { messageId: string }).messageId;
+        return (response as { messageId?: string }).messageId ?? "";
     }
 
     /**

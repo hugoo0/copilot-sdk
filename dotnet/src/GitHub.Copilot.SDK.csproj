@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Version>0.1.0</Version>
+        <CopilotCliVersion Condition="'$(CopilotCliVersion)' == ''">0.0.410</CopilotCliVersion>
         <Description>SDK for programmatic control of GitHub Copilot CLI</Description>
         <Authors>GitHub</Authors>
         <Company>GitHub</Company>
@@ -30,10 +31,7 @@
 
     <!-- Generate version props file at build time (gitignored) -->
     <Target Name="_GenerateVersionProps" BeforeTargets="BeforeBuild;Pack">
-        <Exec Command="node -e &quot;console.log(require('./nodejs/package-lock.json').packages['node_modules/@github/copilot'].version)&quot;" WorkingDirectory="$(MSBuildThisFileDirectory)../.." ConsoleToMSBuild="true" StandardOutputImportance="low">
-            <Output TaskParameter="ConsoleOutput" PropertyName="CopilotCliVersion" />
-        </Exec>
-        <Error Condition="'$(CopilotCliVersion)' == ''" Text="CopilotCliVersion could not be read from nodejs/package-lock.json" />
+        <Error Condition="'$(CopilotCliVersion)' == ''" Text="CopilotCliVersion property is not set" />
         <PropertyGroup>
             <_VersionPropsContent>
                 <![CDATA[<Project>

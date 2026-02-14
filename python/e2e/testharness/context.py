@@ -17,14 +17,20 @@ from .proxy import CapiProxy
 
 
 def get_cli_path_for_tests() -> str:
-    """Get CLI path for E2E tests. Uses node_modules CLI during development."""
-    # Look for CLI in sibling nodejs directory's node_modules
-    base_path = Path(__file__).parents[3]
-    full_path = base_path / "nodejs" / "node_modules" / "@github" / "copilot" / "index.js"
-    if full_path.exists():
-        return str(full_path.resolve())
+    """Get CLI path for E2E tests. Uses copilot-core binary."""
+    # Allow override via environment variable
+    env_path = os.environ.get("COPILOT_CORE_PATH")
+    if env_path and Path(env_path).exists():
+        return str(Path(env_path).resolve())
 
-    raise RuntimeError("CLI not found for tests. Run 'npm install' in the nodejs directory.")
+    # Look for copilot-core on PATH
+    copilot_core = shutil.which("copilot-core")
+    if copilot_core:
+        return copilot_core
+
+    raise RuntimeError(
+        "copilot-core not found. Install it or set COPILOT_CORE_PATH env var."
+    )
 
 
 CLI_PATH = get_cli_path_for_tests()

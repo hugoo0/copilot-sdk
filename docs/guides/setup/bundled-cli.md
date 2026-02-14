@@ -51,11 +51,11 @@ flowchart LR
 
 ### 1. Include the CLI in Your Project
 
-The CLI is distributed as part of the `@github/copilot` npm package. You can also obtain platform-specific binaries for your distribution pipeline.
+The CLI is distributed as the `copilot-core` binary. You can obtain platform-specific binaries for your distribution pipeline.
 
 ```bash
-# The CLI is available from the @github/copilot package
-npm install @github/copilot
+# The CLI is available as the copilot-core binary
+npm install copilot-core
 ```
 
 ### 2. Point the SDK to Your Bundled CLI

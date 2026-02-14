@@ -15,15 +15,13 @@ fi
 
 # Determine COPILOT_CLI_PATH
 if [ -z "$COPILOT_CLI_PATH" ]; then
-    # Try to find it relative to the SDK
-    SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-    POTENTIAL_PATH="$SCRIPT_DIR/../nodejs/node_modules/@github/copilot/index.js"
-    if [ -f "$POTENTIAL_PATH" ]; then
-        export COPILOT_CLI_PATH="$POTENTIAL_PATH"
+    # Try to find copilot-core on PATH
+    if command -v copilot-core &> /dev/null; then
+        export COPILOT_CLI_PATH="$(command -v copilot-core)"
         echo "📍 Auto-detected CLI path: $COPILOT_CLI_PATH"
     else
-        echo "❌ COPILOT_CLI_PATH environment variable not set"
-        echo "   Run: export COPILOT_CLI_PATH=/path/to/dist-cli/index.js"
+        echo "❌ COPILOT_CLI_PATH environment variable not set and copilot-core not found on PATH"
+        echo "   Run: export COPILOT_CLI_PATH=/path/to/copilot-core"
         exit 1
     fi
 fi

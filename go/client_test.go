@@ -2,7 +2,7 @@ package copilot
 
 import (
 	"os"
-	"path/filepath"
+	"os/exec"
 	"reflect"
 	"regexp"
 	"testing"
@@ -378,9 +378,13 @@ func TestClient_EnvOptions(t *testing.T) {
 }
 
 func findCLIPathForTest() string {
-	abs, _ := filepath.Abs("../nodejs/node_modules/@github/copilot/index.js")
-	if fileExistsForTest(abs) {
-		return abs
+	// Check COPILOT_CLI_PATH env var first
+	if envPath := os.Getenv("COPILOT_CLI_PATH"); envPath != "" && fileExistsForTest(envPath) {
+		return envPath
+	}
+	// Fall back to copilot-core on PATH
+	if path, err := exec.LookPath("copilot-core"); err == nil {
+		return path
 	}
 	return ""
 }

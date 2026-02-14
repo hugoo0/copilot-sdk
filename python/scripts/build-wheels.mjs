@@ -54,10 +54,10 @@ function getCliVersion() {
     }
 
     const packageLock = JSON.parse(readFileSync(packageLockPath, "utf-8"));
-    const version = packageLock.packages?.["node_modules/@github/copilot"]?.version;
+    const version = packageLock.packages?.["node_modules/copilot-core"]?.version;
 
     if (!version) {
-        throw new Error("Could not find @github/copilot version in package-lock.json");
+        throw new Error("Could not find copilot-core version in package-lock.json");
     }
 
     return version;
@@ -83,7 +83,7 @@ async function downloadCliBinary(platform, cliVersion, cacheDir) {
         return cachedBinary;
     }
 
-    const tarballUrl = `https://registry.npmjs.org/@github/copilot-${platform}/-/copilot-${platform}-${cliVersion}.tgz`;
+    const tarballUrl = `https://registry.npmjs.org/copilot-core-${platform}/-/copilot-core-${platform}-${cliVersion}.tgz`;
     console.log(`  Downloading from ${tarballUrl}...`);
 
     // Download tarball
@@ -139,7 +139,7 @@ async function downloadCliBinary(platform, cliVersion, cacheDir) {
 
 function getCliLicensePath() {
     // Use license from node_modules (requires npm ci in nodejs/ first)
-    const licensePath = join(repoRoot, "nodejs", "node_modules", "@github", "copilot", "LICENSE.md");
+    const licensePath = join(repoRoot, "nodejs", "node_modules", "copilot-core", "LICENSE.md");
     if (!existsSync(licensePath)) {
         throw new Error(
             `CLI LICENSE.md not found at ${licensePath}. Run 'npm ci' in nodejs/ first.`

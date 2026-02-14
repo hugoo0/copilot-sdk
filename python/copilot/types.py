@@ -72,7 +72,7 @@ Attachment = Union[FileAttachment, DirectoryAttachment, SelectionAttachment]
 class CopilotClientOptions(TypedDict, total=False):
     """Options for creating a CopilotClient"""
 
-    cli_path: str  # Path to the Copilot CLI executable (default: "copilot")
+    cli_path: str  # Path to the Copilot CLI executable (default: "copilot-core")
     # Working directory for the CLI process (default: current process's cwd)
     cwd: str
     port: int  # Port for the CLI server (TCP mode only, default: 0)

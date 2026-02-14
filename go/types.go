@@ -14,7 +14,7 @@ const (
 
 // ClientOptions configures the CopilotClient
 type ClientOptions struct {
-	// CLIPath is the path to the Copilot CLI executable (default: "copilot")
+	// CLIPath is the path to the Copilot CLI executable (default: "copilot-core")
 	CLIPath string
 	// Cwd is the working directory for the CLI process (default: "" = inherit from current process)
 	Cwd string

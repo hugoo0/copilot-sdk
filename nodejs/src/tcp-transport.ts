@@ -3,7 +3,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync } from "node:fs";
 import { Socket } from "node:net";
 import {
     createMessageConnection,
@@ -208,28 +207,13 @@ export class TcpTransport implements Transport {
                 envWithoutNodeDebug.COPILOT_SDK_AUTH_TOKEN = this.opts.githubToken;
             }
 
-            if (!existsSync(this.opts.cliPath)) {
-                throw new Error(
-                    `Copilot CLI not found at ${this.opts.cliPath}. Ensure @github/copilot is installed.`
-                );
-            }
-
             const stdioConfig: ["ignore", "pipe", "pipe"] = ["ignore", "pipe", "pipe"];
-            const isJsFile = this.opts.cliPath.endsWith(".js");
 
-            if (isJsFile) {
-                this.cliProcess = spawn(process.execPath, [this.opts.cliPath, ...args], {
-                    stdio: stdioConfig,
-                    cwd: this.opts.cwd,
-                    env: envWithoutNodeDebug,
-                });
-            } else {
-                this.cliProcess = spawn(this.opts.cliPath, args, {
-                    stdio: stdioConfig,
-                    cwd: this.opts.cwd,
-                    env: envWithoutNodeDebug,
-                });
-            }
+            this.cliProcess = spawn(this.opts.cliPath, args, {
+                stdio: stdioConfig,
+                cwd: this.opts.cwd,
+                env: envWithoutNodeDebug,
+            });
 
             let stdout = "";
             let resolved = false;

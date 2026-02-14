@@ -20,7 +20,7 @@ const lookupFactTool = defineTool("lookup_fact", {
     handler: ({ topic }) => facts[topic.toLowerCase()] ?? `No fact stored for ${topic}.`,
 });
 
-// Create client - will auto-start CLI server (searches PATH for "copilot")
+// Create client - will auto-start CLI server (searches PATH for "copilot-core")
 const client = new CopilotClient({ logLevel: "info" });
 const session = await client.createSession({ tools: [lookupFactTool] });
 console.log(`✅ Session created: ${session.sessionId}\n`);

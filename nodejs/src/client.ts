@@ -171,7 +171,7 @@ export class CopilotClient {
         }
 
         this.options = {
-            cliPath: options.cliPath || getBundledCliPath(),
+            cliPath: options.runtime === "wasm" ? undefined : (options.cliPath || getBundledCliPath()),
             cliArgs: options.cliArgs ?? [],
             cwd: options.cwd ?? process.cwd(),
             port: options.port || 0,

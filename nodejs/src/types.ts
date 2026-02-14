@@ -19,7 +19,7 @@ export type { FileSystemProvider } from "./filesystem.js";
 export interface CopilotClientOptions {
     /**
      * Path to the CLI executable or JavaScript entry point.
-     * If not specified, uses the bundled CLI from the @github/copilot package.
+     * If not specified, uses the copilot-core binary from PATH.
      */
     cliPath?: string;
 

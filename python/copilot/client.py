@@ -58,9 +58,9 @@ def _get_bundled_cli_path() -> Optional[str]:
 
     # Determine binary name based on platform
     if sys.platform == "win32":
-        binary_name = "copilot.exe"
+        binary_name = "copilot-core.exe"
     else:
-        binary_name = "copilot"
+        binary_name = "copilot-core"
 
     binary_path = bin_dir / binary_name
     if binary_path.exists():

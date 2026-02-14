@@ -3,9 +3,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import {
     createMessageConnection,
     type MessageConnection,
@@ -15,12 +12,11 @@ import {
 import type { Transport } from "./transport.js";
 
 /**
- * Gets the path to the bundled CLI from the @github/copilot package.
+ * Gets the path to the copilot-core CLI binary.
+ * Assumes copilot-core is available on PATH.
  */
 export function getBundledCliPath(): string {
-    const sdkUrl = import.meta.resolve("@github/copilot/sdk");
-    const sdkPath = fileURLToPath(sdkUrl);
-    return join(dirname(dirname(sdkPath)), "index.js");
+    return "copilot-core";
 }
 
 export interface StdioTransportOptions {
@@ -146,28 +142,13 @@ export class StdioTransport implements Transport {
                 envWithoutNodeDebug.COPILOT_SDK_AUTH_TOKEN = this.opts.githubToken;
             }
 
-            if (!existsSync(this.opts.cliPath)) {
-                throw new Error(
-                    `Copilot CLI not found at ${this.opts.cliPath}. Ensure @github/copilot is installed.`
-                );
-            }
-
             const stdioConfig: ["pipe", "pipe", "pipe"] = ["pipe", "pipe", "pipe"];
-            const isJsFile = this.opts.cliPath.endsWith(".js");
 
-            if (isJsFile) {
-                this.cliProcess = spawn(process.execPath, [this.opts.cliPath, ...args], {
-                    stdio: stdioConfig,
-                    cwd: this.opts.cwd,
-                    env: envWithoutNodeDebug,
-                });
-            } else {
-                this.cliProcess = spawn(this.opts.cliPath, args, {
-                    stdio: stdioConfig,
-                    cwd: this.opts.cwd,
-                    env: envWithoutNodeDebug,
-                });
-            }
+            this.cliProcess = spawn(this.opts.cliPath, args, {
+                stdio: stdioConfig,
+                cwd: this.opts.cwd,
+                env: envWithoutNodeDebug,
+            });
 
             let resolved = false;
 

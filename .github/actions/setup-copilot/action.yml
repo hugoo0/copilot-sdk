@@ -17,8 +17,8 @@ runs:
       shell: bash
     - name: Set CLI path
       id: cli-path
-      run: echo "path=$(pwd)/nodejs/node_modules/@github/copilot/index.js" >> $GITHUB_OUTPUT
+      run: echo "path=${COPILOT_CLI_PATH:-$(which copilot-core)}" >> $GITHUB_OUTPUT
       shell: bash
     - name: Verify CLI works
-      run: node ${{ steps.cli-path.outputs.path }} --version
+      run: ${{ steps.cli-path.outputs.path }} --version
       shell: bash
