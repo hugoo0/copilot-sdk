@@ -26,7 +26,7 @@ namespace GitHub.Copilot.SDK;
 /// </remarks>
 /// <example>
 /// <code>
-/// await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4" });
+/// await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4.1" });
 ///
 /// // Subscribe to events
 /// using var subscription = session.On(evt =>

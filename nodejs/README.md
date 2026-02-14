@@ -506,7 +506,7 @@ await session.sendAndWait({ prompt: "Hello!" });
 
 ```typescript
 const session = await client.createSession({
-    model: "gpt-4",
+    model: "gpt-4.1",
     provider: {
         type: "openai",
         baseUrl: "https://my-api.example.com/v1",
@@ -519,7 +519,7 @@ const session = await client.createSession({
 
 ```typescript
 const session = await client.createSession({
-    model: "gpt-4",
+    model: "gpt-4.1",
     provider: {
         type: "azure",  // Must be "azure" for Azure endpoints, NOT "openai"
         baseUrl: "https://my-resource.openai.azure.com",  // Just the host, no path

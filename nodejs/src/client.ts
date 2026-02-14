@@ -88,7 +88,7 @@ function toJsonSchema(parameters: Tool["parameters"]): Record<string, unknown> |
  * const client = new CopilotClient({ cliUrl: "localhost:3000" });
  *
  * // Create a session
- * const session = await client.createSession({ model: "gpt-4" });
+ * const session = await client.createSession({ model: "gpt-4.1" });
  *
  * // Send messages and handle responses
  * session.on((event) => {
@@ -465,7 +465,7 @@ export class CopilotClient {
      *
      * // Session with model and tools
      * const session = await client.createSession({
-     *   model: "gpt-4",
+     *   model: "gpt-4.1",
      *   tools: [{
      *     name: "get_weather",
      *     description: "Get weather for a location",

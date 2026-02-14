@@ -395,7 +395,7 @@ session, err := client.CreateSession(context.Background(), &copilot.SessionConfi
 
 ```go
 session, err := client.CreateSession(context.Background(), &copilot.SessionConfig{
-    Model: "gpt-4",
+    Model: "gpt-4.1",
     Provider: &copilot.ProviderConfig{
         Type:    "openai",
         BaseURL: "https://my-api.example.com/v1",
@@ -408,7 +408,7 @@ session, err := client.CreateSession(context.Background(), &copilot.SessionConfi
 
 ```go
 session, err := client.CreateSession(context.Background(), &copilot.SessionConfig{
-    Model: "gpt-4",
+    Model: "gpt-4.1",
     Provider: &copilot.ProviderConfig{
         Type:    "azure",  // Must be "azure" for Azure endpoints, NOT "openai"
         BaseURL: "https://my-resource.openai.azure.com",  // Just the host, no path

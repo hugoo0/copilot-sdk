@@ -38,7 +38,7 @@ export type AssistantMessageEvent = Extract<SessionEvent, { type: "assistant.mes
  *
  * @example
  * ```typescript
- * const session = await client.createSession({ model: "gpt-4" });
+ * const session = await client.createSession({ model: "gpt-4.1" });
  *
  * // Subscribe to events
  * session.on((event) => {

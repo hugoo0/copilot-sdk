@@ -28,7 +28,7 @@ type sessionHandler struct {
 // Example usage:
 //
 //	session, err := client.CreateSession(copilot.SessionConfig{
-//	    Model: "gpt-4",
+//	    Model: "gpt-4.1",
 //	})
 //	if err != nil {
 //	    log.Fatal(err)

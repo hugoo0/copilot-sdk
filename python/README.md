@@ -351,7 +351,7 @@ await session.send({"prompt": "Hello!"})
 import os
 
 session = await client.create_session({
-    "model": "gpt-4",
+    "model": "gpt-4.1",
     "provider": {
         "type": "openai",
         "base_url": "https://my-api.example.com/v1",
@@ -366,7 +366,7 @@ session = await client.create_session({
 import os
 
 session = await client.create_session({
-    "model": "gpt-4",
+    "model": "gpt-4.1",
     "provider": {
         "type": "azure",  # Must be "azure" for Azure endpoints, NOT "openai"
         "base_url": "https://my-resource.openai.azure.com",  # Just the host, no path

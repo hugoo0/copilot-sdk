@@ -36,7 +36,7 @@ namespace GitHub.Copilot.SDK;
 /// await using var client = new CopilotClient();
 ///
 /// // Create a session
-/// await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4" });
+/// await using var session = await client.CreateSessionAsync(new SessionConfig { Model = "gpt-4.1" });
 ///
 /// // Handle events
 /// using var subscription = session.On(evt =>
@@ -335,7 +335,7 @@ public partial class CopilotClient : IDisposable, IAsyncDisposable
     /// // Session with model and tools
     /// var session = await client.CreateSessionAsync(new SessionConfig
     /// {
-    ///     Model = "gpt-4",
+    ///     Model = "gpt-4.1",
     ///     Tools = [AIFunctionFactory.Create(MyToolMethod)]
     /// });
     /// </code>

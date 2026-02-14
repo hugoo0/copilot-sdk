@@ -12,7 +12,7 @@
 //	defer client.Stop()
 //
 //	session, err := client.CreateSession(&copilot.SessionConfig{
-//	    Model: "gpt-4",
+//	    Model: "gpt-4.1",
 //	})
 //	if err != nil {
 //	    log.Fatal(err)
@@ -423,7 +423,7 @@ func (c *Client) ensureConnected() error {
 //
 //	// Session with model and tools
 //	session, err := client.CreateSession(context.Background(), &copilot.SessionConfig{
-//	    Model: "gpt-4",
+//	    Model: "gpt-4.1",
 //	    Tools: []copilot.Tool{
 //	        {
 //	            Name:        "get_weather",

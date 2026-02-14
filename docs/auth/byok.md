@@ -321,7 +321,7 @@ const session = await client.createSession({
 
 // ✅ Correct: Model specified
 const session = await client.createSession({
-    model: "gpt-4",  // Required!
+    model: "gpt-4.1",  // Required!
     provider: { type: "openai", baseUrl: "..." },
 });
 ```
