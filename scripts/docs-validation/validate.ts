@@ -5,7 +5,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { execFileSync, spawn } from "child_process";
+import { execFileSync } from "child_process";
 import { glob } from "glob";
 
 const ROOT_DIR = path.resolve(import.meta.dirname, "../..");
